@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: three-tier-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: three-tier-backend
+  template:
+    metadata:
+      labels:
+        app: three-tier-backend
+    spec:
+      containers:
+      - name: backend
+        image: 079662785620.dkr.ecr.eu-north-1.amazonaws.com/three-tier-backend:4
+        ports:
+        - containerPort: 4000
+        envFrom:
+        - secretRef:
+            name: rds-secret
