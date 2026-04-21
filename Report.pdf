@@ -1,0 +1,401 @@
+ 
+Project Report  On                  End-to-End CI/CD Pipeline for Secure                      Three-Tier Application Deployment on Amazon EKS 
+ 
+ 
+ 
+Submitted 
+In partial fulfillment 
+For the award of the Degree of 
+Post Graduate Diploma in IT Infrastructure  
+System & Security  
+C-DAC, ACTS (Pune) 
+	Guided by 	 
+     Mr. Roshan Gami 
+ 
+                  Submitted by:  
+	 	Snehit Alchewar 	PRN: 250840123050 
+	 	Sai Varshit Areti 	PRN: 250840123044 
+	 	Sayali Kore      	PRN: 250840123049 
+	 	Aayush Mahajan 	PRN: 250840123001 
+	 	Faizan Sayani        	PRN: 250840123015 
+ 
+ 
+Centre of Development of Advanced Computing (C-DAC) 
+ACTS (Pune – 411008) 
+  
+CERTIFICATE 
+ 
+TO WHOMSOEVER IT MAY CONCERN 
+This is to certify that 
+ 
+ 
+  Aayush Mahajan              PRN: 250840123001 
+  Faizan Sayani                   PRN: 250840123015               
+  	 	  	      Snehit Alchewar               PRN: 250840123050 
+                                     Sai Varshit Areti               PRN: 250840123044 
+                                     Sayali Kore                       PRN: 250840123049 
+ 
+ 
+ 
+ 
+Have successfully completed their project on 
+ 
+ 
+ 
+“End-to-End CI/CD Pipeline for Secure Three-Tier Application Deployment on Amazon EKS” 
+ 
+Under the guidance of 
+Mr. Roshan Gami 
+ 
+ 
+ 
+ 
+Project Guide 	Course Coordinator 
+Mr. Roshan Gami 	Ms. Divya Patel 
+ 
+ 
+ 
+ 
+HOD ACTS 
+Mr. Gaur Sunder 
+ 
+ACKNOWLEDGEMENT 
+ 
+This is to acknowledge our indebtedness to our Project Guide, Mr. Roshan Gami, CDAC ACTS, Pune, for his constant guidance and helpful suggestions for preparing this project, End-to-End CI/CD Pipeline for Secure Three-Tier Application Deployment on Amazon EKS. 
+ 
+We express our deep gratitude towards his inspiration, personal involvement,   constructive criticism that he provided us along with technical guidance during the  course of this project. 
+ 
+We take the opportunity to thank the head of the department, Mr. Gaur Sunder, for             providing us with such a great infrastructure and environment for our overall development. 
+ 
+We express sincere thanks to Mr. Soumyakant Behera, Process Owner, for their kind cooperation and their extended support towards the completion of our project. 
+ 
+It is our great pleasure to express sincere and deep gratitude towards Mrs. Risha P.R. (Program Head) and Ms. Divya Patel(Course Coordinator, PG-DITISS) for their valuable guidance and constant support throughout this work, and help to pursue additional studies. 
+ 
+Also, our warm thanks to C-DAC ACTS Pune, which provided us with this opportunity to carry out this prestigious Project and enhance our learning in various technical fields. 
+ 
+ 
+ 
+   Aayush Mahajan               PRN: 250840123001 
+   Faizan Sayani                   PRN: 250840123015               
+  	 	  	      Snehit Alchewar               PRN: 250840123050 
+                                     Sai Varshit Areti               PRN: 250840123044 
+                                     Sayali Kore                       PRN: 250840123049 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ABSTRACT 
+ 
+ 
+This project focuses on designing and implementing a secure, automated, and scalable end-to-end DevSecOps CI/CD pipeline for deploying a three-tier cloud-native application on Amazon Elastic Kubernetes Service (EKS). The application is containerized using Docker and stored in Amazon Elastic Container Registry (ECR) before being deployed to a managed Kubernetes cluster on AWS. GitHub is used for source code management, while Jenkins automates the continuous integration and continuous deployment workflow. 
+ 
+Code quality and security are enforced early in the pipeline using SonarQube for static code analysis and Trivy for container image vulnerability scanning. 
+Infrastructure and application access are secured through AWS Identity and Access Management (IAM), and application traffic is protected using AWS Web Application Firewall. Amazon EKS manages container orchestration, ensuring high availability, scalability, and fault tolerance across the application tiers. 
+ 
+Operational visibility and security monitoring are achieved using Amazon CloudWatch for logs and metrics, and AWS Security Hub for centralized security findings and compliance monitoring. This DevSecOps-enabled CI/CD framework integrates automation, security, and cloud-native orchestration to deliver a robust, secure, and efficient deployment pipeline, aligning with modern enterprise DevSecOps best practices. 
+ 
+
+ 
+ 
+1. INTRODUCTION AND OVERVIEW OF PROJECT 
+    1.1 PURPOSE 
+   The purpose of this project is to design a secure, automated, and scalable CI/CD pipeline for deploying a three-tier cloud-native application on Amazon EKS. It integrates CI/CD practices with containerization, Kubernetes orchestration, security controls, and centralized monitoring to ensure reliable, secure, and efficient application deployment. 
+    1.2 AIM AND OBJECTIVE 
+• Aim:- This project aims to develop a secure and automated DevSecOps CI/CD pipeline for deploying a three-tier application on Amazon EKS, ensuring scalability, reliability, and operational efficiency. 
+• Objectives:- 
+•	Automated Deployment Pipeline 
+ To build a fully automated CI/CD pipeline using Jenkins that enables continuous integration, security validation, and continuous deployment of the three-tier application. 
+•	Containerization 
+ To containerize the application using Docker, ensuring consistent and portable application environments across development, testing, and production stages. • Kubernetes Orchestration 
+ To deploy and manage the application on Amazon Elastic Kubernetes Service (EKS), enabling efficient container orchestration, scalability, and fault tolerance. • Source Code Management 
+ To utilize GitHub for effective source code version control, collaboration, and automated pipeline triggering. 
+•	Code Quality Assurance 
+ To integrate SonarQube into the CI/CD pipeline for static code analysis, ensuring code quality, maintainability, and early detection of vulnerabilities. 
+•	Container and Application Security 
+ To implement Trivy for container image vulnerability scanning and integrate AWS IAM and Web Application Firewall (WAF) to enforce secure access control and application-layer protection. 
+•	GitOps-Based Deployment 
+ To use ArgoCD for GitOps-driven deployment, enabling declarative, version-controlled, and synchronized application delivery to Amazon EKS. • Monitoring and Logging 
+ To implement Amazon CloudWatch for centralized monitoring, logging, and performance analysis, ensuring operational visibility and system reliability. 
+ 
+ 
+    
+  2. Prerequisites 
+ 
+   2.1 HARDWARE AND SOFTWARE REQUIREMENTS 
+Hardware Requirements: 
+1. EC2 Machine (t3.xlarge):-  (Jenkins, Kaniko, Trivy, SonarQube, OWASP Dependency-Check, Amazon EKS, ArgoCD, OWASP Zap, Monitoring Services): 
+RAM: At least 16 GB 
+CPU: 4 cores 
+Disk Space: 40 GB 
+ 
+ 
+Software Requirements: 
+ 
+1.	Operating System: Ubuntu 18.04 or higher (Linux-based environment) 
+2.	Docker: For containerizing the three-tier application and building container images 
+3.	Kubernetes Platform: Amazon Elastic Kubernetes Service (EKS) for container orchestration and scalable deployment 
+4.	Helm: For deploying and managing Kubernetes applications and monitoring tools 
+5.	Jenkins: For automating the CI/CD pipeline 
+6.	ArgoCD: For GitOps-based continuous deployment to Amazon EKS 
+7.	SonarQube: For static code analysis and code quality assurance 
+8.	Trivy: For container image vulnerability scanning 
+9.	Owasp Zap: For Run time Application testing 
+10.	Amazon ECR: For secure storage of Docker images 
+11.	Amazon CloudWatch: For centralized logging and monitoring 
+12.	AWS IAM & WAF: For access control and application-level security. 
+13.	AWS CloudTrail: Used to record AWS API calls and IAM-related activities. 
+       
+ 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+        2.2 TOOLS AND TECHNOLOGIES 
+    Ensure you have access to and install the following tools and technologies: 
+ 
+A)  CI/CD and Deployment Tools: 
+•	Jenkins: Installed and configured on the CI/CD server to automate the build, test, security scanning, and deployment processes. 
+•	Plugins: GitHub Integration, Docker Pipeline, SonarQube Scanner, Email Extension, and Trivy. 
+•	Jenkinsfile: Used to define and manage the complete CI/CD workflow. 
+•	Docker: Used to containerize the three-tier application and create Docker images for deployment. 
+•	Amazon Elastic Container Registry (ECR): Used as a private container registry to securely store and manage Docker images. 
+•	ArgoCD: Deployed on Amazon EKS to enable GitOps-based continuous deployment. 
+ Integrated with GitHub to automatically synchronize application manifests with the cluster state. 
+•	Kubernetes (Amazon Elastic Kubernetes Service – EKS): Used for container orchestration, scaling, and high availability of the application. 
+ kubectl is configured on the Jenkins server to interact with the EKS cluster. 
+•	SonarQube: Integrated into the CI/CD pipeline for static code analysis and code quality enforcement. 
+•	Trivy: Used for container image vulnerability scanning to identify security issues before deployment. 
+•	AWS Identity and Access Management (IAM): Used to manage secure access control for AWS resources and services. 
+•	AWS Web Application Firewall (WAF): Used to protect the application from common web-based attacks. 
+•	Amazon CloudWatch: Used for centralized logging, monitoring, and performance analysis of the application and infrastructure. 
+•	Amazon CloudTrail:  CloudTrail is used to track AWS API activity and infrastructure-related changes. 
+ 
+ 	 	 	 	 	 	 	 	 	 
+B) Security and Code Quality Tools: 
+ 
+●	SonarQube 
+Installed and configured on the CI/CD server to perform static code analysis and ensure code quality, maintainability, and early detection of vulnerabilities. 
+ 
+●	Trivy 
+Integrated into the Jenkins pipeline to perform container image vulnerability scanning, identifying known security issues before deployment. 
+ 
+●	OWASP ZAP 
+           Used for dynamic application security testing (DAST) after deployment.      
+ 
+    
+C)  Networking and Access Control 
+ 
+•	CI/CD Server to Amazon EKS Communication 
+Ensure that the Jenkins server can securely communicate with the Amazon EKS cluster. This requires proper network configuration, security group rules, and IAM permissions to allow interaction with the Kubernetes API. 
+ 
+•	GitHub Access 
+The GitHub repository must be accessible to both Jenkins and ArgoCD. Webhooks are configured to trigger Jenkins builds on code changes, and a GitHub Personal Access Token (PAT) is used for secure authentication. 
+ 
+•	Container Registry Access 
+Jenkins must have permission to authenticate with Amazon Elastic 
+Container Registry (ECR) to push and pull Docker images. Appropriate IAM roles and credentials are configured to ensure secure image management. 
+ 
+D) Basic Configuration Knowledge 
+•	Git and GitHub 
+Basic knowledge of Git and GitHub for source code management, including repository handling and webhook configuration to trigger Jenkins pipelines. 
+ 
+•	Jenkins Pipeline 
+Understanding of Jenkins pipelines and writing Jenkinsfile scripts to automate build, security checks, and deployment workflows. 
+ 
+ 	 	 	 	 	 	 	 	 	 
+ 
+•	Docker 
+Ability to write Dockerfiles to containerize applications and manage container images. Basic knowledge of Docker commands for image build and push operations. 
+ 
+•	Kubernetes (Amazon EKS) 
+Fundamental understanding of Kubernetes concepts and deployment using kubectl, including working with namespaces, pods, deployments, services, and ingress resources through YAML configuration files. 
+ 
+•	ArgoCD 
+Basic understanding of GitOps principles and how ArgoCD manages application deployment by syncing Kubernetes manifests from a Git repository to the Amazon EKS cluster. 
+ 
+•	Cloud and Security Basics 
+Familiarity with AWS IAM roles, security groups, and basic cloud networking concepts is required to securely access and manage Amazon EKS resources. 
+ 
+E) Access and Credentials 
+●	GitHub Credentials 
+Access to a GitHub repository for storing application source code and Kubernetes manifests. 
+A	GitHub Personal Access Token (PAT) or SSH key is configured in Jenkins for secure repository access. 
+ 
+●	Container Registry Credentials 
+Access to Amazon Elastic Container Registry (ECR) for pushing and pulling Docker images. 
+Jenkins is configured with appropriate AWS IAM roles or credentials to authenticate with ECR. 
+ 
+●	Kubernetes and ArgoCD Credentials 
+A	valid kubeconfig file is required to interact with the Amazon EKS cluster using kubectl. 
+ Jenkins must have the necessary permissions to trigger deployments through ArgoCD, either via API tokens or Git-based synchronization. 
+ 
+ 
+                        
+●	SonarQube 
+Configure secure authentication for SonarQube and enforce quality gates within the Jenkins pipeline to ensure code quality, maintainability, and early detection of security issues. 
+ 
+●	Container Security (Trivy) 
+Integrate Trivy into the CI/CD pipeline to perform container image vulnerability scanning before deployment, ensuring that images with critical vulnerabilities are not promoted to production. 
+ 
+●	Access Control and Permissions 
+Implement AWS IAM roles and policies to enforce least-privilege access for Jenkins, Amazon EKS, ArgoCD, and Amazon ECR. 
+ 
+●	Application and Infrastructure Protection 
+Use AWS Web Application Firewall (WAF) to protect the application from common web attacks and malicious traffic. 
+ 
+●	Monitoring and Alerts 
+ Utilize Amazon CloudWatch to monitor application logs, system metrics, and cluster health. Configure alarms to detect abnormal behavior and performance issues. 
+ 
+ 
+ 
+     3. OVERALL DESCRIPTION 
+     3.1 INTRODUCTION: 
+   In today’s fast-paced software development environment, the need for rapid, reliable, and secure application deployment has become critical. Traditional deployment approaches that rely heavily on manual processes often lead to configuration errors, delayed releases, and increased security risks. To address these challenges, modern organizations adopt Continuous Integration and Continuous Deployment (CI/CD) practices that automate the software delivery lifecycle. 
+ 
+  This project, titled “End-to-End CI/CD Pipeline for Secure Three-Tier Application Deployment on Amazon EKS,” focuses on designing and implementing a fully automated DevSecOps CI/CD pipeline for deploying a cloud-native three-tier application. The solution utilizes Jenkins for pipeline automation, Docker for application containerization, and Amazon Elastic Kubernetes Service (EKS) for scalable and reliable container orchestration. ArgoCD is used to enable GitOps-based deployment, ensuring declarative, version-controlled, and synchronized application delivery. 
+ 
+   To enhance code quality and security, the pipeline integrates SonarQube for static code analysis and Trivy for container image vulnerability scanning. Secure access control and application protection are enforced using AWS IAM and AWS Web Application Firewall (WAF). Additionally, Amazon CloudWatch is employed for centralized logging and monitoring, providing visibility into application performance and system health. 
+ 
+   Security and code quality are treated as integral components of the pipeline. SonarQube is used for static code analysis to detect code smells, bugs, and maintainability issues, while Trivy performs container image vulnerability scanning to identify known security risks before deployment. Access control and infrastructure security are enforced using AWS Identity and Access Management (IAM), and AWS Web Application Firewall (WAF) is implemented to protect the application from common web-based attacks. For operational visibility, Amazon CloudWatch is utilized to collect logs and metrics, enabling continuous monitoring of application performance and system health. 
+ 
+ 
+ 
+ 
+ 	 
+ 
+ 
+ 
+3.2 DATA FLOW DIAGRAM 
+ 
+            Stage 1 :-   From Github to Jenkins CI Pipeline 
+ 
+  
+ 	Stage 2:- Continuous Deployment on Amazon EKS 
+  
+              
+ 
+ 
+ 
+ 
+Stage 3:- Logging ,Monitoring and DAST Testing 
+  
+ 
+The code changes automatically trigger a Jenkins pipeline that builds, tests, and analyzes the project. Upon successful completion of the build process, a Docker image is created and subsequently deployed to a Kubernetes cluster using Argo CD for continuous delivery. In the event of build failures, detailed reports are generated to provide insights into the issues encountered, facilitating quicker resolution and improving overall development efficiency. 
+ 
+        3.3 ARCHITECTURE 
+ 
+This project implements a secure, automated DevSecOps CI/CD architecture on AWS, integrating continuous integration, continuous delivery, and continuous security across the application lifecycle 
+1.	Source Code Management & Triggering 
+The application source code is maintained in GitHub. 
+Every code commit or pull request triggers the CI pipeline automatically using GitHub Webhooks. 
+This ensures no manual intervention and enforces consistency. 
+Why this matters: 
+ If CI is not auto-triggered, your pipeline is already broken. 
+ 
+2.	Continuous Integration (CI) – Jenkins on EKS 
+ 
+Jenkins is deployed as a pod inside Amazon EKS, backed by Amazon EBS via PVC. 
+The CI pipeline performs the following stages in strict order: 
+ 
+a)	Unit Testing 
+ 
+●	Validates application logic early 
+ 
+●	Fails fast if code quality is poor 
+ 
+b)	Secret Scanning – GitLeaks 
+●	Scans source code for exposed credentials (API keys, passwords, tokens) 
+●	Pipeline fails immediately if secrets are detected 
+ 
+c)	Dependency Vulnerability Scan – OWASP Dependency Check 
+●	Scans third-party libraries for known CVEs 
+ 
+●	Prevents vulnerable dependencies from reaching production 
+ 
+d)	Docker Image Build 
+●	Builds the application into a Docker image 
+ 
+●	Uses minimal base images to reduce attack surface 
+ 
+e)	Container Image Scan – Trivy 
+●	Scans the built image for OS-level and application-level vulnerabilities 
+ 
+●	Enforces severity thresholds before allowing image push 
+ 
+ 
+f)	Image Push to Amazon ECR 
+●	Only security-approved images are pushed 
+ 
+●	Amazon ECR acts as the trusted container registry. 
+ 
+ 
+3.	GitOps-Based Continuous Deployment (CD) 
+Deployment is handled using GitOps, not Jenkins, pushing manifests directly. 
+●	Kubernetes manifests are stored in a separate GitOps repository. 
+ 
+●	Image tag updates are committed automatically after a successful build. 
+ 
+●	Argo CD continuously monitors the GitOps repo and syncs changes to EKS. 
+ 
+Why GitOps: 
+●	Version-controlled deployments 
+ 
+●	Full audit trail 
+ 
+●	Easy rollback 
+ 
+●	Zero manual kubectl access 
+ 
+4.	Kubernetes Deployment on Amazon EKS 
+The application runs on Amazon EKS, split into: 
+●	Frontend Pods 
+ 
+●	Backend Pods 
+ 
+Traffic is managed using: 
+●	Ingress Controller (ALB Ingress) 
+ 
+●	AWS WAF is integrated at the load balancer level to block common attacks (SQLi,  
+XSS) 
+ 
+ 
+5.	Database Layer 
+The backend connects to Amazon RDS, configured with: 
+●	Encryption at rest 
+ 
+●	Private subnet deployment 
+ 
+●	No public access 
+ 
+This isolates the database from the internet entirely. 
+ 
+ 
+6.	Continuous Security Testing (DAST) 
+After deployment, OWASP ZAP performs Dynamic Application Security Testing (DAST)  on the live application. 
+●	Detects runtime vulnerabilities 
+ 
+●	Simulates real-world attacker behavior 
+ 
+7.	Monitoring & Observability 
+a)	Amazon CloudWatch 
+●	Application logs 
+ 
+●	Pod and node metrics 
+ 
+●	CPU, memory, and error-based alarms 
+ 
+b)	Amazon CloudTrail 
+●	Tracks IAM changes 
+ 
+●	Logs AWS API calls 
